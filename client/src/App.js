@@ -19,35 +19,26 @@ const styles = theme => ({
   table:{
     minWidth: 1080 // 창을 줄여도 1080 픽셀 만큼은 무조건 만들게 해줌
   }
-})
+});
 
-const customers = [{
-  'id': 1,
-  'image': 'https://placeimg.com/64/64/1',
-  'name': '조현철',
-  'birthday': '961222',
-  'gender': '남자',
-  'job': '대학생'
-},
-{
-  'id': 2,
-  'image': 'https://placeimg.com/64/64/2',
-  'name': '홍길동',
-  'birthday': '960119',
-  'gender': '남자',
-  'job': '프로그래머'
-},
-{
-  'id': 3,
-  'image': 'https://placeimg.com/64/64/3',
-  'name': '이순신',
-  'birthday': '921205',
-  'gender': '남자',
-  'job': '디자이너'
-}
-]
 
 class App extends Component {
+  state={
+    customers:""
+  }
+  //Api에 접근을 해서 데이터를 받아오는 작업
+  //라이브러리라는 점에서 생명 주기가 존재함
+  //마운트가 되었을 때 실행이 된다.
+  componentDidMount(){
+    this.callApi()
+      .then(res => this.setState({customers: res}))//값을 받아오고 이름은 res로 바뀌고
+      .catch(err => console.log(err));
+  }
+  callApi = async () =>{
+    const response = await fetch('/api/customers'); //접속하고자 하는 api의 주소
+    const body = await response.json();// 고객 목록이 json 형태로 출력이 되고 이를 받아옴
+    return body;
+  }
   render() {
     const {classes} = this.props;
     return (//pros<프롭스>라는 개념을 이용해서 한명의 정보를 출력한다.
@@ -63,8 +54,9 @@ class App extends Component {
             <TableCell>직업</TableCell>
           </TableHead>
           <TableBody>
-            {customers.map(c => {//map을 이용하면 키값이 필요하다.
-            return (<Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)})}
+            {this.state.customers ? this.state.customers.map(c => {//map을 이용하면 키값이 필요하다.
+            return (<Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)
+          }) : ""}
           </TableBody>
           </Table>
        }
