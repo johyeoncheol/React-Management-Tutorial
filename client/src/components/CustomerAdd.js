@@ -86,7 +86,7 @@ class CustomerAdd extends React.Component{
     }
 
     handleClose=()=>{
-        this.state={
+        this.setState({
             file:null,
             userName:'',
             birthday:'',
@@ -94,7 +94,7 @@ class CustomerAdd extends React.Component{
             job:'',
             fileName:'',
             open: false
-        }
+        })
     }
 
     render(){

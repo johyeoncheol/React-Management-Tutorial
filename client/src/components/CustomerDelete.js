@@ -23,9 +23,9 @@ class CustomerDelete extends React.Component{
     }
 
     handleClose=()=>{
-        this.state={
+        this.setState({
             open: false
-        }
+        });
     }
 
     deleteCustomer(id){
