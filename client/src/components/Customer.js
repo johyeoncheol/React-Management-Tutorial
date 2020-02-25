@@ -1,6 +1,7 @@
 import React from 'react';//리액트 라이브러리를 사용하기 위해 임포트
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import CustomerDelete from './CustomerDelete';
 
 /*React.Component는 라이브러리이자 클래스이다. 상속을 이용함*/
 class Customer extends React.Component {
@@ -13,6 +14,7 @@ class Customer extends React.Component {
                 <TableCell>{this.props.birthday}</TableCell>
                 <TableCell>{this.props.gender}</TableCell>
                 <TableCell>{this.props.job}</TableCell>
+                <TableCell><CustomerDelete stateRefresh={this.props.stateRefresh} id={this.props.id}/></TableCell>
             </TableRow>//사용자를 한줄에 담기 위해서 사용
         )
     }
