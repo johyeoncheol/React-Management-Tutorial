@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Customer from './components/Customer';
+import CustomerAdd from './components/CustomerAdd';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -44,9 +45,24 @@ pros or state => shouldComponentUpdate()
 
 */
 class App extends Component {
-  state={
-    customers:"" ,
-    completed:0
+  
+  constructor(props){
+    super(props);
+    this.state ={
+      customers:'',
+      completed: 0
+    }
+  }
+
+  stateRefresh = () =>{
+    this.setState({
+      customers: '', 
+      completed: 0
+    });
+    this.callApi()
+      .then(res => this.setState({ customers: res }))//값을 받아오고 이름은 res로 바뀌고
+      .catch(err => console.log(err));
+
   }
 
   progress=()=>{
@@ -71,31 +87,34 @@ class App extends Component {
   render() {
     const {classes} = this.props;
     return (//pros<프롭스>라는 개념을 이용해서 한명의 정보를 출력한다.
-      <Paper className={classes.root}>
-        { //map 함수를 이용해서 여러개를 일일히 호출할 필요가 없어졌다.
-          <Table class={classes.table}>
-          <TableHead>
-            <TableCell>번호</TableCell>
-            <TableCell>이미지</TableCell>
-            <TableCell>이름</TableCell>
-            <TableCell>생년월일</TableCell>
-            <TableCell>성별</TableCell>
-            <TableCell>직업</TableCell>
-          </TableHead>
-          <TableBody>
-            {this.state.customers ? this.state.customers.map(c => {//map을 이용하면 키값이 필요하다.
-            return (<Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)
-          }) : 
-          <TableRow>
-            <TableCell colSpan="6" align="center">
-              <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
-            </TableCell>
-          </TableRow>
-        }
-          </TableBody>
-          </Table>
-       }
-      </Paper>
+      <div>
+        <Paper className={classes.root}>
+          { //map 함수를 이용해서 여러개를 일일히 호출할 필요가 없어졌다.
+            <Table class={classes.table}>
+              <TableHead>
+                <TableCell>번호</TableCell>
+                <TableCell>이미지</TableCell>
+                <TableCell>이름</TableCell>
+                <TableCell>생년월일</TableCell>
+                <TableCell>성별</TableCell>
+                <TableCell>직업</TableCell>
+              </TableHead>
+              <TableBody>
+                {this.state.customers ? this.state.customers.map(c => {//map을 이용하면 키값이 필요하다.
+                  return (<Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />)
+                }) :
+                  <TableRow>
+                    <TableCell colSpan="6" align="center">
+                      <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed} />
+                    </TableCell>
+                  </TableRow>
+                }
+              </TableBody>
+            </Table>
+          }
+        </Paper>
+        <CustomerAdd stateRefresh={this.stateRefresh}/>
+      </div>
       //// Paper은 감싸주기 위해서 사용한다.
       //  <Customer
       //   id={customers[0].id}

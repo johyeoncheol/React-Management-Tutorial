@@ -8,7 +8,7 @@ class Customer extends React.Component {
         return (//렌더라는 함수는 항상 리턴이라는 것을 이용해서 반환을 해줘야 한다.
             <TableRow> 
                 <TableCell>{this.props.id}</TableCell>
-                <TableCell><img src={this.props.image} alt="profile"/></TableCell>
+                <TableCell><img src={this.props.image} alt="profile" style={{width:64,height:64}}/></TableCell>
                 <TableCell>{this.props.name}</TableCell>
                 <TableCell>{this.props.birthday}</TableCell>
                 <TableCell>{this.props.gender}</TableCell>
